@@ -5,7 +5,7 @@ DEBUG := NO
 MDSPLUS := YES
 MDSPLUS := NO
 
-include ../d-top.mak
+include ./d-top.mak
 
 LIBS             :=
 
@@ -229,4 +229,4 @@ install_rtm_t: rtm_t
 	cp $(EXEDIR)/acq2sh /usr/local/bin/acq2sh.ip
 	cp $(EXEDIR)/acqcmd /usr/local/bin/acqcmd.ip
 
-include ../d-bot.mak
+include ./d-bot.mak

@@ -36,7 +36,7 @@ DC := $(shell date +%Y%m%d%H%M)
 PACKAGE_FILE := ACQ2XX_API.$(DC).tgz
 
 ##CXXFLAGS += -I../include -DWITH_NONAMESPACES
-CXXFLAGS += -I../include -DAPI
+CXXFLAGS += -DAPI
 #CXXFLAGS += -I../include -DAPI -pg
 
 # NB: no library yet, that just makes debugging harder!.

@@ -34,6 +34,7 @@ using namespace std;
 
 #include "Acq132.h"
 
+#include "acq-util.h"
 
 #include <time.h>
 #include <unistd.h>
@@ -287,12 +288,18 @@ void AcqDataModel::dumpFormat(const string& dirFile, unsigned long start_sample)
 			pfx_path, start_sample_by_wallclock);
 
 	for (ch = 1; ch <= acq_type.getNumChannels(); ++ch){
+		if (!inMask(ch)){
+			continue;
+		}
 // AI01	RAW	S	1
 		fprintf(format.getFp(), "%s%s%02d\tRAW\t%c\t1\n",
 				pfx_path, ch_name_core, ch, fmt);
 	}
 	for (ch = 1; has_timebase && ch <= acq_type.getNumChannels(); ++ch){
 // AI01	RAW	S	1
+		if (!inMask(ch)){
+			continue;
+		}
 		fprintf(format.getFp(), "%sTB%02d\tRAW\td\t1\n",
 				pfx_path, ch, fmt);
 
@@ -301,6 +308,9 @@ void AcqDataModel::dumpFormat(const string& dirFile, unsigned long start_sample)
 		}
 	}
 	for (ch = 1; ch <= acq_type.getNumChannels(); ++ch){
+		if (!inMask(ch)){
+			continue;
+		}
 // AI01	RAW	S	1
 		acq_cal->getCal(ch, gain, offset);
 		fprintf(format.getFp(), "%sV%02d\tLINCOM\t1\t%s%s%02d\t%g\t%g\n",
@@ -496,6 +506,9 @@ void LinearDataModel<T>::dump(DumpDef& dd)
 	dbg(2, "LinearDataModel::dump(%s)\n", dd.root.c_str());
 
 	for (int ch = 1; ch <= acq_type.getNumChannels(); ++ch){
+		if (!inMask(ch)){
+			continue;
+		}
 		char buf[16];
 		sprintf(buf, "%sCH%02d", AcqDataModel::pfx.c_str(), ch);
 		File f(dd.root, buf, file_write_mode);
@@ -564,11 +577,12 @@ AcqDataModel::AcqDataModel(
 		string _scanlist, string _channelMask) :
 		acq_type(_acq_type),
 		scanlist(_scanlist),
-		channelMask(_channelMask),
 		has_timebase(true),
 		ch_name_core("CH")
 {
 	acq_cal = AcqCal::create(acq_type);
+	active_channels = new int[acq_type.nchan];
+	acqMakeChannelRange(active_channels, acq_type.nchan, _channelMask.c_str());
 }
 
 void AcqDataModel::setAcqCal(AcqCal* _acq_cal){

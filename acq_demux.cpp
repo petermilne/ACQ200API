@@ -89,6 +89,7 @@ int acq200_debug = 0;
 
 int nsamples;
 const char *csm;
+const char* cmask;
 const char *acq_def_file = "acq_type.def";
 
 const char *dual_rate_def = 0;
@@ -116,6 +117,7 @@ static poptContext processOpts(int argc, const char** argv)
 	{ "sample_clock_ns",	'T', POPT_ARG_DOUBLE, 
 						  &Clock::sample_clock_ns, 'T'},
 	{ "ChannelSpeedMask",   'C', POPT_ARG_STRING, &csm,		'C' },
+	{ "channel_mask",       'M', POPT_ARG_STRING, &cmask,           'M' },
 	{ "outbase",'O', POPT_ARG_STRING, &WorkingDir::outbase, 0 },
 	{ "dual-rate",           0,  POPT_ARG_STRING, &dual_rate_def,    'd' },
 	{ "cleanup",		 0,  POPT_ARG_INT, &WorkingDir::cleanup, 0 },

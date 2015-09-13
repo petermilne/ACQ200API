@@ -30,7 +30,7 @@ using namespace std;
 #include <vector>
 
 #define DEFSCAN	"DEFSCAN"	/* operate in normal sequence */
-#define DEFMASK "DEFMASK"	/* operate in normal sequence */
+#define DEFMASK ":"		/* operate in normal sequence */
 
 
 class AcqType;
@@ -56,7 +56,7 @@ protected:
 	static bool ignore_es;
 	const AcqType& acq_type;
 	string scanlist;
-	string channelMask;
+	int* active_channels;
 	AcqCal* acq_cal;
 	string ident;
 	string dataSourceName;
@@ -69,6 +69,9 @@ protected:
 		string _scanlist, string _channelMask);
 
 public:
+	bool inMask(int ch){
+		return active_channels[ch];
+	}
 	static bool processNoStashES(int& len) {
 		if (len < 0){
 			len = -len;

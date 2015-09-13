@@ -66,6 +66,7 @@ LIB_SRC=acq2xx_api.cpp acq_transport.cpp \
 	AcqType.cpp \
 	WorkingDir.cpp \
 	EnvFile.cpp \
+	acq-util.cpp \
 	SHM_Buffer.cpp 
 
 DATAMODEL_SRC := AcqDataModel.cpp Acq132.cpp AcqCal.cpp
@@ -211,7 +212,7 @@ install_x86:
 tarball: clean
 	(cd ..; tar cvzf /tmp/$(PACKAGE_FILE)  \
 		--exclude-from ./API/nopack ./API *.mak include)
-	cvs tag API_$(DC)
+	git tag -a API_$(DC)
 	mv /tmp/$(PACKAGE_FILE) release
 	echo tarball $(PACKAGE_FILE) created
 

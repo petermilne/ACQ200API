@@ -56,7 +56,7 @@ protected:
 	static bool ignore_es;
 	const AcqType& acq_type;
 	string scanlist;
-	int* active_channels;
+	int* mask_enabled_channels;
 	AcqCal* acq_cal;
 	string ident;
 	string dataSourceName;
@@ -70,7 +70,7 @@ protected:
 
 public:
 	bool inMask(int ch){
-		return active_channels[ch];
+		return mask_enabled_channels[ch];
 	}
 	static bool processNoStashES(int& len) {
 		if (len < 0){

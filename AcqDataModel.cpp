@@ -581,8 +581,10 @@ AcqDataModel::AcqDataModel(
 		ch_name_core("CH")
 {
 	acq_cal = AcqCal::create(acq_type);
-	active_channels = new int[acq_type.nchan];
-	acqMakeChannelRange(active_channels, acq_type.nchan, _channelMask.c_str());
+	mask_enabled_channels = new int[acq_type.nchan];
+	memset(mask_enabled_channels, 0, acq_type.nchan*sizeof(int));
+	acqMakeChannelRange(mask_enabled_channels, acq_type.nchan, _channelMask.c_str());
+	fprintf(stderr, "channelRange:\"%s\"\n", _channelMask.c_str());
 }
 
 void AcqDataModel::setAcqCal(AcqCal* _acq_cal){

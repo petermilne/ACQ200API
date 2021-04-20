@@ -67,7 +67,8 @@ LIB_SRC=acq2xx_api.cpp acq_transport.cpp \
 	WorkingDir.cpp \
 	EnvFile.cpp \
 	acq-util.cpp \
-	SHM_Buffer.cpp 
+	SHM_Buffer.cpp \
+	DataStreamer.cpp
 
 DATAMODEL_SRC := AcqDataModel.cpp Acq132.cpp AcqCal.cpp
 

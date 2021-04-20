@@ -701,6 +701,14 @@ const AcqType& AcqType::_getAcqType(const char personality[], Acq2xx* card)
 			return *new Acq196AcqType(nchan, word_size);
 		}
 	}else if (acqPrams["ACQ"] == "acq164"){
+	       char reply[REPLY];
+        	int rc = card->getTransport()->acq2sh("get.dtacq channel_mask", reply, REPLY);
+		if (!STATUS_ERR(rc)){
+			if (strtoul(reply, 0, 0) == 0x1 || strtoul(reply, 0, 0) == 0x2){
+				nchan = 32;
+			}
+		}
+
 		return *new Acq164AcqType(nchan, word_size);
 	}else if (acqPrams["ACQ"].find("acq132") != string::npos){
 		return *new Acq132AcqType(acqPrams["ACQ"], nchan, word_size);
